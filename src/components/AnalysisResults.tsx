@@ -52,30 +52,16 @@ const AnalysisResults = ({ isVisible, result }: AnalysisResultsProps) => {
         <div className="max-w-6xl mx-auto">
           {/* Primary Result Card */}
           <motion.div
-            className="gradient-card gradient-border rounded-2xl p-8 mb-8 relative overflow-hidden"
+            className="glass rounded-2xl p-8 mb-8"
             initial={{ scale: 0.95 }}
             animate={{ scale: 1 }}
             transition={{ duration: 0.3 }}
           >
-            {/* Subtle gradient overlay */}
-            <div className={`absolute inset-0 pointer-events-none ${
-              result.isAI 
-                ? "bg-gradient-to-br from-destructive/5 to-transparent" 
-                : result.confidence < 50 
-                  ? "bg-gradient-to-br from-warning/5 to-transparent"
-                  : "bg-gradient-to-br from-success/5 to-transparent"
-            }`} />
-            
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6 relative">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="flex items-center gap-6">
                 <div className={`
-                  relative w-20 h-20 rounded-2xl flex items-center justify-center
-                  ${result.isAI 
-                    ? "bg-gradient-to-br from-destructive/30 to-destructive/10" 
-                    : result.confidence < 50 
-                      ? "bg-gradient-to-br from-warning/30 to-warning/10" 
-                      : "bg-gradient-to-br from-success/30 to-success/10"
-                  }
+                  w-20 h-20 rounded-2xl flex items-center justify-center
+                  ${result.isAI ? "bg-destructive/20" : result.confidence < 50 ? "bg-warning/20" : "bg-success/20"}
                 `}>
                   {getResultIcon()}
                 </div>
@@ -98,10 +84,10 @@ const AnalysisResults = ({ isVisible, result }: AnalysisResultsProps) => {
                   />
                 </div>
                 <div className="flex gap-2">
-                  <Button variant="glass" size="icon" className="gradient-border">
+                  <Button variant="glass" size="icon">
                     <Download className="h-4 w-4" />
                   </Button>
-                  <Button variant="glass" size="icon" className="gradient-border">
+                  <Button variant="glass" size="icon">
                     <Share2 className="h-4 w-4" />
                   </Button>
                 </div>
@@ -120,7 +106,7 @@ const AnalysisResults = ({ isVisible, result }: AnalysisResultsProps) => {
 
           {/* Feature Analysis */}
           <motion.div
-            className="gradient-card gradient-border rounded-2xl p-6 mt-6"
+            className="glass rounded-2xl p-6 mt-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
@@ -133,7 +119,7 @@ const AnalysisResults = ({ isVisible, result }: AnalysisResultsProps) => {
                 { label: "Phase Coherence", value: result.isAI ? "0.923" : "0.456", alert: result.isAI },
                 { label: "Noise Signature", value: result.isAI ? "Synthetic" : "Natural", alert: result.isAI },
               ].map((feature) => (
-                <div key={feature.label} className="bg-gradient-to-br from-muted/50 to-muted/20 rounded-xl p-4 border border-border/50">
+                <div key={feature.label} className="bg-muted/30 rounded-lg p-4">
                   <div className="text-sm text-muted-foreground mb-1">{feature.label}</div>
                   <div className={`text-lg font-mono font-semibold ${feature.alert ? "text-destructive" : "text-success"}`}>
                     {feature.value}

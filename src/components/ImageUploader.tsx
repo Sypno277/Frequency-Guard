@@ -58,12 +58,20 @@ const ImageUploader = ({ onImageUpload, isAnalyzing }: ImageUploaderProps) => {
   };
 
   return (
-    <section id="demo" className="py-20">
-      <div className="container mx-auto px-4">
+    <section id="demo" className="py-20 relative">
+      {/* Background accent */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-primary/5 to-accent/5 rounded-full blur-3xl" />
+      </div>
+      
+      <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 gradient-card gradient-border rounded-full px-4 py-2 mb-6">
+              <span className="text-sm text-muted-foreground">Quick Analysis</span>
+            </div>
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-              Upload Your Image
+              Upload Your <span className="gradient-text">Image</span>
             </h2>
             <p className="text-muted-foreground">
               Drag and drop an image or click to browse. Supports JPG, PNG, and WebP.
@@ -72,12 +80,12 @@ const ImageUploader = ({ onImageUpload, isAnalyzing }: ImageUploaderProps) => {
 
           <div
             className={`
-              relative rounded-2xl border-2 border-dashed transition-all duration-300
+              relative rounded-2xl border-2 border-dashed transition-all duration-300 gradient-card
               ${isDragging 
-                ? "border-primary bg-primary/5 scale-[1.02]" 
+                ? "border-primary bg-primary/5 scale-[1.02] glow-primary" 
                 : preview 
-                  ? "border-border bg-card" 
-                  : "border-border hover:border-primary/50 bg-card/50"
+                  ? "border-border" 
+                  : "border-border hover:border-primary/50"
               }
               ${isAnalyzing ? "pulse-glow" : ""}
             `}
@@ -86,6 +94,9 @@ const ImageUploader = ({ onImageUpload, isAnalyzing }: ImageUploaderProps) => {
             onDragOver={handleDrag}
             onDrop={handleDrop}
           >
+            {/* Gradient border effect */}
+            <div className="absolute inset-0 rounded-2xl gradient-border pointer-events-none" />
+            
             {/* Scan line effect when analyzing */}
             {isAnalyzing && (
               <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
@@ -112,10 +123,13 @@ const ImageUploader = ({ onImageUpload, isAnalyzing }: ImageUploaderProps) => {
                       className="max-h-[400px] rounded-lg object-contain"
                     />
                     {isAnalyzing && (
-                      <div className="absolute inset-0 bg-background/50 backdrop-blur-sm rounded-lg flex items-center justify-center">
+                      <div className="absolute inset-0 bg-gradient-to-br from-background/60 to-background/40 backdrop-blur-sm rounded-lg flex items-center justify-center">
                         <div className="flex flex-col items-center gap-3">
-                          <Loader2 className="h-8 w-8 text-primary animate-spin" />
-                          <span className="text-sm font-medium">Analyzing frequency patterns...</span>
+                          <div className="relative">
+                            <Loader2 className="h-10 w-10 text-primary animate-spin" />
+                            <div className="absolute inset-0 bg-primary/20 rounded-full blur-xl" />
+                          </div>
+                          <span className="text-sm font-medium gradient-text">Analyzing frequency patterns...</span>
                         </div>
                       </div>
                     )}
@@ -131,12 +145,15 @@ const ImageUploader = ({ onImageUpload, isAnalyzing }: ImageUploaderProps) => {
                   className="hidden"
                 />
                 <div className="flex flex-col items-center gap-6">
-                  <div className="w-20 h-20 rounded-2xl bg-primary/10 flex items-center justify-center">
-                    {isDragging ? (
-                      <ImageIcon className="h-10 w-10 text-primary" />
-                    ) : (
-                      <Upload className="h-10 w-10 text-primary" />
-                    )}
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary to-accent rounded-2xl blur-xl opacity-30" />
+                    <div className="relative w-20 h-20 rounded-2xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center border border-primary/20">
+                      {isDragging ? (
+                        <ImageIcon className="h-10 w-10 text-primary" />
+                      ) : (
+                        <Upload className="h-10 w-10 text-primary" />
+                      )}
+                    </div>
                   </div>
                   <div className="text-center">
                     <p className="font-medium mb-2">
@@ -147,9 +164,9 @@ const ImageUploader = ({ onImageUpload, isAnalyzing }: ImageUploaderProps) => {
                     </p>
                   </div>
                   <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                    <span className="px-2 py-1 rounded bg-muted">JPG</span>
-                    <span className="px-2 py-1 rounded bg-muted">PNG</span>
-                    <span className="px-2 py-1 rounded bg-muted">WebP</span>
+                    <span className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-muted to-muted/80 border border-border/50">JPG</span>
+                    <span className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-muted to-muted/80 border border-border/50">PNG</span>
+                    <span className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-muted to-muted/80 border border-border/50">WebP</span>
                   </div>
                 </div>
               </label>

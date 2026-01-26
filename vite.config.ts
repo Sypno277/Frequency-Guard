@@ -7,6 +7,9 @@ export default defineConfig(() => ({
   server: {
     host: "::",
     port: 8080,
+    hmr: {
+      clientPort: 443,
+    },
   },
   plugins: [react()],
   resolve: {

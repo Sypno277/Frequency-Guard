@@ -1,5 +1,6 @@
-import { Shield, Github, BookOpen } from "lucide-react";
+import { Shield, Github, BookOpen, GraduationCap } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
@@ -7,13 +8,13 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex items-center gap-3">
+          <Link to="/" className="flex items-center gap-3">
             <div className="relative">
               <Shield className="h-8 w-8 text-primary" />
               <div className="absolute inset-0 blur-lg bg-primary/30" />
             </div>
             <span className="text-xl font-bold gradient-text">DeepForensics</span>
-          </div>
+          </Link>
 
           {/* Navigation */}
           <nav className="hidden md:flex items-center gap-8">
@@ -26,6 +27,10 @@ const Header = () => {
             <a href="#demo" className="text-muted-foreground hover:text-foreground transition-colors">
               Demo
             </a>
+            <Link to="/training" className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1">
+              <GraduationCap className="h-4 w-4" />
+              Training
+            </Link>
           </nav>
 
           {/* Actions */}

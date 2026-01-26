@@ -7,7 +7,6 @@ export default defineConfig(() => ({
   server: {
     host: "::",
     port: 8080,
-    allowedHosts: true,
     hmr: {
       clientPort: 443,
     },

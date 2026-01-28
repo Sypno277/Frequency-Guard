@@ -35,8 +35,10 @@ const Header = () => {
 
           {/* Actions */}
           <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" className="hidden sm:flex">
-              <Github className="h-5 w-5" />
+            <Button variant="ghost" size="icon" className="hidden sm:flex" asChild>
+              <a href="https://github.com/Sypno277/Frequency-Guard" target="_blank" rel="noopener noreferrer">
+                <Github className="h-5 w-5" />
+              </a>
             </Button>
             <Button variant="ghost" size="icon" className="hidden sm:flex">
               <BookOpen className="h-5 w-5" />

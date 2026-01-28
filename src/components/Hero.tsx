@@ -57,7 +57,10 @@ const Hero = ({ onStartAnalysis }: HeroProps) => {
               Start Analysis
               <ArrowRight className="h-5 w-5" />
             </Button>
-            <Button variant="glass" size="xl">
+            <Button variant="glass" size="xl" onClick={() => {
+              const featuresSection = document.getElementById('features');
+              featuresSection?.scrollIntoView({ behavior: 'smooth' });
+            }}>
               View Documentation
             </Button>
           </div>

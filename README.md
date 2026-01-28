@@ -2,7 +2,7 @@
 
 ## AI-Generated Image Detection System
 
-🌐 **Live Demo**: [https://frequency-guard-1jqym7e1k-borkarpr-5920s-projects.vercel.app/](https://frequency-guard-1jqym7e1k-borkarpr-5920s-projects.vercel.app/)
+🌐 **Live Demo**: [https://frequency-guard.vercel.app/](https://frequency-guard.vercel.app/)
 
 Frequency Guard is an advanced deepfake detection tool that analyzes images using frequency-domain analysis, statistical fingerprinting, and multi-resolution feature extraction to identify AI-generated content. The system employs a sophisticated two-stage training pipeline that combines forensic analysis with weak signal learning.
 

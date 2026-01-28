@@ -13,7 +13,7 @@ const Header = () => {
               <Shield className="h-8 w-8 text-primary" />
               <div className="absolute inset-0 blur-lg bg-primary/30" />
             </div>
-            <span className="text-xl font-bold gradient-text">DeepForensics</span>
+            <span className="text-xl font-bold gradient-text">Frequency Guard</span>
           </Link>
 
           {/* Navigation */}

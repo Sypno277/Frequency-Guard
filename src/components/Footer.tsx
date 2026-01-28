@@ -8,7 +8,7 @@ const Footer = () => {
           {/* Logo */}
           <div className="flex items-center gap-3">
             <Shield className="h-6 w-6 text-primary" />
-            <span className="font-bold gradient-text">DeepForensics AI</span>
+            <span className="font-bold gradient-text">Frequency Guard</span>
           </div>
 
           {/* Links */}
@@ -31,7 +31,7 @@ const Footer = () => {
         </div>
 
         <div className="text-center text-sm text-muted-foreground mt-8">
-          © 2024 DeepForensics AI. Advanced Image Authenticity Detection.
+          © 2024 Frequency Guard. Advanced Image Authenticity Detection.
         </div>
       </div>
     </footer>

@@ -6,14 +6,13 @@ import HowItWorks from "@/components/HowItWorks";
 import ImageUploader from "@/components/ImageUploader";
 import AnalysisResults from "@/components/AnalysisResults";
 import Footer from "@/components/Footer";
+import { analyzeWithTrainingSignal, type AdaptiveAnalysisResult } from "@/lib/services/adaptiveInference";
 
 const Index = () => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [analysisResult, setAnalysisResult] = useState<{
-    isAI: boolean;
-    confidence: number;
-    model: string;
-  } | null>(null);
+  const [analysisResult, setAnalysisResult] = useState<AdaptiveAnalysisResult | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [showResults, setShowResults] = useState(false);
   const uploaderRef = useRef<HTMLDivElement>(null);
 
@@ -21,27 +20,29 @@ const Index = () => {
     uploaderRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // Real pipeline: upload → POST /api/v1/analyze → render measured features.
+  // No artificial delay; latency is whatever the backend reports.
   const handleImageUpload = async (file: File, preview: string) => {
     setIsAnalyzing(true);
     setShowResults(false);
     setAnalysisResult(null);
+    setPreviewUrl(preview);
+    setError(null);
 
-    // Simulate analysis delay (in production, this would call the backend API)
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-
-    // Mock result - randomly determine if AI or real for demo
-    const isAI = Math.random() > 0.4;
-    const models = ["Stable Diffusion", "Midjourney", "DALL-E", "GAN (StyleGAN)", "Flux/SDXL"];
-    const randomModel = models[Math.floor(Math.random() * models.length)];
-
-    setAnalysisResult({
-      isAI,
-      confidence: isAI ? 75 + Math.random() * 20 : 80 + Math.random() * 18,
-      model: isAI ? randomModel : "N/A",
-    });
-
-    setIsAnalyzing(false);
-    setShowResults(true);
+    try {
+      const result = await analyzeWithTrainingSignal(file);
+      setAnalysisResult(result);
+      setShowResults(true);
+    } catch (err) {
+      console.error("Analysis failed:", err);
+      setError(
+        err instanceof Error
+          ? `${err.message} — is the API server running? (python -m uvicorn python_services.frequency_guard.api.server:app --port 8000)`
+          : "Analysis failed unexpectedly."
+      );
+    } finally {
+      setIsAnalyzing(false);
+    }
   };
 
   return (
@@ -50,12 +51,12 @@ const Index = () => {
       <Hero onStartAnalysis={handleStartAnalysis} />
       <Features />
       <HowItWorks />
-      
+
       <div ref={uploaderRef}>
-        <ImageUploader onImageUpload={handleImageUpload} isAnalyzing={isAnalyzing} />
+        <ImageUploader onImageUpload={handleImageUpload} isAnalyzing={isAnalyzing} error={error} />
       </div>
-      
-      <AnalysisResults isVisible={showResults} result={analysisResult} />
+
+      <AnalysisResults isVisible={showResults} result={analysisResult} previewUrl={previewUrl} />
       <Footer />
     </div>
   );

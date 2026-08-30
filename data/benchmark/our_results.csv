@@ -1,0 +1,37 @@
+file,label,state,image_id,provenance,is_ai_pred,verdict_state,confidence,fake_prob,threshold,latency_ms,agreement,family,family_prob
+real_0_portrait.jpg,real,pristine,real_0_portrait,camera photo (picsum),0,authentic,0.0,0.0,0.0791,4542.74,0.8267,real,0.9717
+real_0_portrait_jpeg60.jpg,real,jpeg60,real_0_portrait,JPEG q=50,0,authentic,0.0,0.0,0.0791,4268.55,0.8236,real,0.9717
+real_0_portrait_resize.png,real,resize,real_0_portrait,50% down then up,0,authentic,0.0,0.0,0.0791,2685.92,0.8272,real,0.9717
+real_0_portrait_screenshot.png,real,screenshot,real_0_portrait,screenshot w/ UI bars,1,uncertain,33.16,0.3316,0.0791,2399.71,0.0454,real,0.6553
+real_1_landscape.jpg,real,pristine,real_1_landscape,camera photo (picsum),1,uncertain,36.01,0.3601,0.0791,2564.87,0.0654,real,0.5959
+real_1_landscape_jpeg60.jpg,real,jpeg60,real_1_landscape,JPEG q=50,1,uncertain,36.01,0.3601,0.0791,3186.59,0.0654,real,0.5959
+real_1_landscape_resize.png,real,resize,real_1_landscape,50% down then up,1,uncertain,36.01,0.3601,0.0791,1745.68,0.0654,real,0.5959
+real_1_landscape_screenshot.png,real,screenshot,real_1_landscape,screenshot w/ UI bars,1,uncertain,38.04,0.3804,0.0791,1774.44,0.0786,real,0.5516
+real_2_product.jpg,real,pristine,real_2_product,camera photo (picsum),0,authentic,1.25,0.0125,0.0791,2107.72,0.7838,real,0.9686
+real_2_product_jpeg60.jpg,real,jpeg60,real_2_product,JPEG q=50,0,authentic,0.25,0.0025,0.0791,2711.67,0.8494,real,0.9711
+real_2_product_resize.png,real,resize,real_2_product,50% down then up,0,authentic,1.61,0.0161,0.0791,2154.49,0.7548,real,0.9676
+real_2_product_screenshot.png,real,screenshot,real_2_product,screenshot w/ UI bars,1,uncertain,32.94,0.3294,0.0791,2802.79,0.0438,real,0.6596
+real_3_indoor.jpg,real,pristine,real_3_indoor,camera photo (picsum),1,uncertain,33.81,0.3381,0.0791,2340.32,0.0334,real,0.6422
+real_3_indoor_jpeg60.jpg,real,jpeg60,real_3_indoor,JPEG q=50,1,uncertain,33.81,0.3381,0.0791,1862.58,0.0334,real,0.6422
+real_3_indoor_resize.png,real,resize,real_3_indoor,50% down then up,1,uncertain,33.81,0.3381,0.0791,1983.71,0.0334,real,0.6422
+real_3_indoor_screenshot.png,real,screenshot,real_3_indoor,screenshot w/ UI bars,1,uncertain,38.5,0.385,0.0791,1759.65,0.0814,real,0.5415
+real_4_outdoor.jpg,real,pristine,real_4_outdoor,camera photo (picsum),1,uncertain,33.59,0.3359,0.0791,1814.57,0.0485,real,0.6466
+real_4_outdoor_jpeg60.jpg,real,jpeg60,real_4_outdoor,JPEG q=50,1,uncertain,33.59,0.3359,0.0791,1818.93,0.0485,real,0.6466
+real_4_outdoor_resize.png,real,resize,real_4_outdoor,50% down then up,1,uncertain,33.59,0.3359,0.0791,2149.37,0.0485,real,0.6466
+real_4_outdoor_screenshot.png,real,screenshot,real_4_outdoor,screenshot w/ UI bars,1,uncertain,36.68,0.3668,0.0791,1769.8,0.0699,real,0.5815
+ai_0_portrait.png,ai,pristine,ai_0_portrait,generated-ai,0,authentic,0.0,0.0,0.0791,1803.01,0.7442,real,0.9717
+ai_0_portrait_jpeg60.jpg,ai,jpeg60,ai_0_portrait,JPEG q=50,0,authentic,0.02,0.0002,0.0791,1740.67,0.611,real,0.9716
+ai_0_portrait_resize.png,ai,resize,ai_0_portrait,50% down then up,0,authentic,0.0,0.0,0.0791,2179.39,0.7475,real,0.9717
+ai_0_portrait_screenshot.png,ai,screenshot,ai_0_portrait,screenshot w/ UI bars,1,uncertain,36.71,0.3671,0.0791,2789.32,0.053,real,0.5808
+ai_1_proxy.png,ai,pristine,ai_1_proxy,procedural-proxy,1,ai,100.0,1.0,0.0791,1782.18,0.9961,real,0.0039
+ai_1_proxy_jpeg60.jpg,ai,jpeg60,ai_1_proxy,JPEG q=50,1,ai,100.0,1.0,0.0791,1844.83,0.9825,real,0.0039
+ai_1_proxy_resize.png,ai,resize,ai_1_proxy,50% down then up,0,authentic,0.89,0.0089,0.0791,2244.99,0.7522,real,0.9695
+ai_1_proxy_screenshot.png,ai,screenshot,ai_1_proxy,screenshot w/ UI bars,1,uncertain,36.24,0.3624,0.0791,2255.6,0.0669,real,0.5911
+ai_2_proxy.png,ai,pristine,ai_2_proxy,procedural-proxy,1,ai,100.0,1.0,0.0791,1849.5,1.0,real,0.0039
+ai_2_proxy_jpeg60.jpg,ai,jpeg60,ai_2_proxy,JPEG q=50,1,ai,100.0,1.0,0.0791,1727.34,1.0,real,0.0039
+ai_2_proxy_resize.png,ai,resize,ai_2_proxy,50% down then up,0,authentic,1.14,0.0114,0.0791,1877.0,0.7309,real,0.9689
+ai_2_proxy_screenshot.png,ai,screenshot,ai_2_proxy,screenshot w/ UI bars,1,uncertain,36.24,0.3624,0.0791,1792.4,0.0669,real,0.5911
+ai_3_proxy.png,ai,pristine,ai_3_proxy,procedural-proxy,1,ai,100.0,1.0,0.0791,1948.13,1.0,real,0.0039
+ai_3_proxy_jpeg60.jpg,ai,jpeg60,ai_3_proxy,JPEG q=50,1,ai,100.0,1.0,0.0791,1841.86,0.9913,real,0.0039
+ai_3_proxy_resize.png,ai,resize,ai_3_proxy,50% down then up,0,authentic,1.14,0.0114,0.0791,3226.57,0.7309,real,0.9689
+ai_3_proxy_screenshot.png,ai,screenshot,ai_3_proxy,screenshot w/ UI bars,1,uncertain,36.24,0.3624,0.0791,3127.86,0.0669,real,0.5911

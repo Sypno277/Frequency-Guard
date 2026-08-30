@@ -11,6 +11,18 @@ export default defineConfig(() => ({
     hmr: {
       clientPort: 443,
     },
+    // Forward API calls to the FastAPI backend so the browser can use
+    // same-origin relative URLs (/api/v1/...) during development.
+    proxy: {
+      "/api": {
+        target: "http://127.0.0.1:8000",
+        changeOrigin: true,
+      },
+      "/health": {
+        target: "http://127.0.0.1:8000",
+        changeOrigin: true,
+      },
+    },
   },
   plugins: [react()],
   resolve: {

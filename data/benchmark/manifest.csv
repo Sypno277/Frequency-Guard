@@ -1,0 +1,37 @@
+file,label,state,image_id,provenance,path
+real_0_portrait.jpg,real,pristine,real_0_portrait,camera photo (picsum),data/benchmark/real/real_0_portrait.jpg
+real_0_portrait_jpeg60.jpg,real,jpeg60,real_0_portrait,JPEG q=50,data/benchmark/jpeg60/real_0_portrait_jpeg60.jpg
+real_0_portrait_resize.png,real,resize,real_0_portrait,50% down then up,data/benchmark/resize/real_0_portrait_resize.png
+real_0_portrait_screenshot.png,real,screenshot,real_0_portrait,screenshot w/ UI bars,data/benchmark/screenshot/real_0_portrait_screenshot.png
+real_1_landscape.jpg,real,pristine,real_1_landscape,camera photo (picsum),data/benchmark/real/real_1_landscape.jpg
+real_1_landscape_jpeg60.jpg,real,jpeg60,real_1_landscape,JPEG q=50,data/benchmark/jpeg60/real_1_landscape_jpeg60.jpg
+real_1_landscape_resize.png,real,resize,real_1_landscape,50% down then up,data/benchmark/resize/real_1_landscape_resize.png
+real_1_landscape_screenshot.png,real,screenshot,real_1_landscape,screenshot w/ UI bars,data/benchmark/screenshot/real_1_landscape_screenshot.png
+real_2_product.jpg,real,pristine,real_2_product,camera photo (picsum),data/benchmark/real/real_2_product.jpg
+real_2_product_jpeg60.jpg,real,jpeg60,real_2_product,JPEG q=50,data/benchmark/jpeg60/real_2_product_jpeg60.jpg
+real_2_product_resize.png,real,resize,real_2_product,50% down then up,data/benchmark/resize/real_2_product_resize.png
+real_2_product_screenshot.png,real,screenshot,real_2_product,screenshot w/ UI bars,data/benchmark/screenshot/real_2_product_screenshot.png
+real_3_indoor.jpg,real,pristine,real_3_indoor,camera photo (picsum),data/benchmark/real/real_3_indoor.jpg
+real_3_indoor_jpeg60.jpg,real,jpeg60,real_3_indoor,JPEG q=50,data/benchmark/jpeg60/real_3_indoor_jpeg60.jpg
+real_3_indoor_resize.png,real,resize,real_3_indoor,50% down then up,data/benchmark/resize/real_3_indoor_resize.png
+real_3_indoor_screenshot.png,real,screenshot,real_3_indoor,screenshot w/ UI bars,data/benchmark/screenshot/real_3_indoor_screenshot.png
+real_4_outdoor.jpg,real,pristine,real_4_outdoor,camera photo (picsum),data/benchmark/real/real_4_outdoor.jpg
+real_4_outdoor_jpeg60.jpg,real,jpeg60,real_4_outdoor,JPEG q=50,data/benchmark/jpeg60/real_4_outdoor_jpeg60.jpg
+real_4_outdoor_resize.png,real,resize,real_4_outdoor,50% down then up,data/benchmark/resize/real_4_outdoor_resize.png
+real_4_outdoor_screenshot.png,real,screenshot,real_4_outdoor,screenshot w/ UI bars,data/benchmark/screenshot/real_4_outdoor_screenshot.png
+ai_0_portrait.png,ai,pristine,ai_0_portrait,generated-ai,data/benchmark/ai/ai_0_portrait.png
+ai_0_portrait_jpeg60.jpg,ai,jpeg60,ai_0_portrait,JPEG q=50,data/benchmark/jpeg60/ai_0_portrait_jpeg60.jpg
+ai_0_portrait_resize.png,ai,resize,ai_0_portrait,50% down then up,data/benchmark/resize/ai_0_portrait_resize.png
+ai_0_portrait_screenshot.png,ai,screenshot,ai_0_portrait,screenshot w/ UI bars,data/benchmark/screenshot/ai_0_portrait_screenshot.png
+ai_1_proxy.png,ai,pristine,ai_1_proxy,procedural-proxy,data/benchmark/ai/ai_1_proxy.png
+ai_1_proxy_jpeg60.jpg,ai,jpeg60,ai_1_proxy,JPEG q=50,data/benchmark/jpeg60/ai_1_proxy_jpeg60.jpg
+ai_1_proxy_resize.png,ai,resize,ai_1_proxy,50% down then up,data/benchmark/resize/ai_1_proxy_resize.png
+ai_1_proxy_screenshot.png,ai,screenshot,ai_1_proxy,screenshot w/ UI bars,data/benchmark/screenshot/ai_1_proxy_screenshot.png
+ai_2_proxy.png,ai,pristine,ai_2_proxy,procedural-proxy,data/benchmark/ai/ai_2_proxy.png
+ai_2_proxy_jpeg60.jpg,ai,jpeg60,ai_2_proxy,JPEG q=50,data/benchmark/jpeg60/ai_2_proxy_jpeg60.jpg
+ai_2_proxy_resize.png,ai,resize,ai_2_proxy,50% down then up,data/benchmark/resize/ai_2_proxy_resize.png
+ai_2_proxy_screenshot.png,ai,screenshot,ai_2_proxy,screenshot w/ UI bars,data/benchmark/screenshot/ai_2_proxy_screenshot.png
+ai_3_proxy.png,ai,pristine,ai_3_proxy,procedural-proxy,data/benchmark/ai/ai_3_proxy.png
+ai_3_proxy_jpeg60.jpg,ai,jpeg60,ai_3_proxy,JPEG q=50,data/benchmark/jpeg60/ai_3_proxy_jpeg60.jpg
+ai_3_proxy_resize.png,ai,resize,ai_3_proxy,50% down then up,data/benchmark/resize/ai_3_proxy_resize.png
+ai_3_proxy_screenshot.png,ai,screenshot,ai_3_proxy,screenshot w/ UI bars,data/benchmark/screenshot/ai_3_proxy_screenshot.png

@@ -1,0 +1,7 @@
+relative_path,label,expected_verdict
+real/real_0000.png,0,0
+real/real_0001.png,0,0
+real/real_0002.png,0,0
+fake/fake_0000.png,1,1
+fake/fake_0001.png,1,1
+fake/fake_0002.png,1,1

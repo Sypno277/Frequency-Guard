@@ -1,392 +1,133 @@
-# Architecture Diagram - Expandable Training Section
+# Frequency Guard v2 — Architecture
 
-## System Overview
-
-```
-┌─────────────────────────────────────────────────────────────────────────┐
-│                        USER INTERFACE (React/TypeScript)                 │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                           │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌─────────────┐│
-│  │  Training    │  │   Training   │  │    Model     │  │ Embeddings  ││
-│  │   Intake     │  │  Dashboard   │  │ Management   │  │ Visualizer  ││
-│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘  └──────┬──────┘│
-│         │                 │                 │                 │         │
-└─────────┼─────────────────┼─────────────────┼─────────────────┼─────────┘
-          │                 │                 │                 │
-          ▼                 ▼                 ▼                 ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│                         SERVICE LAYER (TypeScript)                        │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                           │
-│  ┌──────────────────┐    ┌──────────────────┐    ┌─────────────────┐  │
-│  │  Forensic        │    │  Weak Signal     │    │  Embedding      │  │
-│  │  Analysis        │───▶│  Processing      │───▶│  Store          │  │
-│  │  Service         │    │  Service         │    │  Service        │  │
-│  └──────────────────┘    └──────────────────┘    └─────────┬───────┘  │
-│          │                       │                          │           │
-│          │                       │                          │           │
-│          ▼                       ▼                          ▼           │
-│  ┌──────────────────┐    ┌──────────────────┐    ┌─────────────────┐  │
-│  │  Model Metadata  │    │  Training        │    │  Clustering     │  │
-│  │  Store           │    │  Integration     │    │  Algorithms     │  │
-│  └──────────────────┘    └──────────────────┘    └─────────────────┘  │
-│                                                                           │
-└───────────────────────────────────────────────────────────────────────┘
-```
-
-## Two-Stage Intake Pipeline
+## System overview
 
 ```
-┌─────────────────────────────────────────────────────────────────────┐
-│                     IMAGE UPLOAD (User Action)                       │
-└────────────────────────────┬────────────────────────────────────────┘
-                             │
-                             ▼
-┌─────────────────────────────────────────────────────────────────────┐
-│                    STAGE 1: FORENSIC ANALYSIS                        │
-├─────────────────────────────────────────────────────────────────────┤
-│  ┌───────────────────────────────────────────────────────────────┐ │
-│  │ Multi-Resolution Frequency Features                           │ │
-│  │  • Contourlet Transform (128 coefficients)                    │ │
-│  │  • Multi-Resolution FFT (5 scales × 64 features)              │ │
-│  │  • Phase Randomness (entropy metric)                          │ │
-│  │  • Cross-Channel Coherence (RGB correlation)                  │ │
-│  │  • Spectral Entropy Gradients (32-dim vector)                 │ │
-│  └───────────────────────────────────────────────────────────────┘ │
-│                             │                                         │
-│  ┌───────────────────────────────────────────────────────────────┐ │
-│  │ Statistical Fingerprints                                      │ │
-│  │  • Fractal Dimension (box-counting method)                    │ │
-│  │  • GLCM Features (contrast, correlation, energy, homogeneity) │ │
-│  │  • Texture Analysis                                           │ │
-│  └───────────────────────────────────────────────────────────────┘ │
-│                             │                                         │
-│  ┌───────────────────────────────────────────────────────────────┐ │
-│  │ Model-Specific Artifacts                                      │ │
-│  │  • Checkerboard Pattern Detection (GAN upsampling)            │ │
-│  │  • Attention Map Consistency (diffusion models)               │ │
-│  │  • Light Transport Analysis (physical plausibility)           │ │
-│  └───────────────────────────────────────────────────────────────┘ │
-│                             │                                         │
-│  ┌───────────────────────────────────────────────────────────────┐ │
-│  │ CDCS Computation                                              │ │
-│  │  Spatial Branch      ──┐                                      │ │
-│  │  Frequency Branch    ──┼──▶ Consistency Score (0-1)          │ │
-│  │  Wavelet Branch      ──┤                                      │ │
-│  │  Statistical Branch  ──┘                                      │ │
-│  └───────────────────────────────────────────────────────────────┘ │
-│                             │                                         │
-│                             ▼                                         │
-│  ┌───────────────────────────────────────────────────────────────┐ │
-│  │ DETECTOR PREDICTION                                           │ │
-│  │  • Family: Diffusion/GAN/Transformer/Real                     │ │
-│  │  • Model: Stable Diffusion XL / DALL-E 3 / etc.              │ │
-│  │  • Confidence: 0.87 (calibrated)                              │ │
-│  │  • Forensic Features: [all extracted features]                │ │
-│  └───────────────────────────────────────────────────────────────┘ │
-└────────────────────────────┬────────────────────────────────────────┘
-                             │
-                             ▼
-┌─────────────────────────────────────────────────────────────────────┐
-│                    STAGE 2: WEAK USER LABELING                      │
-├─────────────────────────────────────────────────────────────────────┤
-│  ┌───────────────────────────────────────────────────────────────┐ │
-│  │ Display Detector Prediction                                   │ │
-│  │  Pre-populate: "Likely Stable Diffusion XL (87%)"            │ │
-│  └───────────────────────────────────────────────────────────────┘ │
-│                             │                                         │
-│  ┌───────────────────────────────────────────────────────────────┐ │
-│  │ User Input (Optional)                                         │ │
-│  │  • Select Model Family: [Diffusion ▼]                        │ │
-│  │  • Select Specific Model: [Stable Diffusion XL v1.0 ▼]      │ │
-│  │  • Confidence Slider: [████████░░] 85%                       │ │
-│  │  • Historical Accuracy: 82%                                   │ │
-│  └───────────────────────────────────────────────────────────────┘ │
-│                             │                                         │
-│                    ┌────────┴────────┐                               │
-│                    │                 │                               │
-│                    ▼                 ▼                               │
-│            ┌──────────────┐  ┌──────────────┐                       │
-│            │   Submit     │  │     Skip     │                       │
-│            │   Label      │  │   Labeling   │                       │
-│            └──────┬───────┘  └──────┬───────┘                       │
-│                   │                 │                               │
-└───────────────────┼─────────────────┼───────────────────────────────┘
-                    │                 │
-                    └────────┬────────┘
-                             │
-                             ▼
-┌─────────────────────────────────────────────────────────────────────┐
-│                    WEAK SIGNAL FUSION                                │
-├─────────────────────────────────────────────────────────────────────┤
-│  ┌───────────────────────────────────────────────────────────────┐ │
-│  │ Weight Calculation                                            │ │
-│  │  Detector Weight = Calibration Accuracy × 0.7                │ │
-│  │                  = 0.87 × 0.7 = 0.609                        │ │
-│  │                                                               │ │
-│  │  User Weight = (Confidence / 100) × User Accuracy × 0.3      │ │
-│  │              = (85 / 100) × 0.82 × 0.3 = 0.209              │ │
-│  │                                                               │ │
-│  │  Normalized:                                                  │ │
-│  │    Detector: 0.609 / 0.818 = 74.5%                          │ │
-│  │    User:     0.209 / 0.818 = 25.5%                          │ │
-│  └───────────────────────────────────────────────────────────────┘ │
-│                             │                                         │
-│  ┌───────────────────────────────────────────────────────────────┐ │
-│  │ Label Selection                                               │ │
-│  │  Detector Score = 0.87 × 0.745 = 0.648                      │ │
-│  │  User Score     = 0.85 × 0.255 = 0.217                      │ │
-│  │  Total          = 0.648 + 0.217 = 0.865                     │ │
-│  │                                                               │ │
-│  │  Agreement Bonus (if models match): +10%                      │ │
-│  │  Final Confidence = min(0.865 × 1.1, 1.0) = 0.95            │ │
-│  └───────────────────────────────────────────────────────────────┘ │
-│                             │                                         │
-│                             ▼                                         │
-│  ┌───────────────────────────────────────────────────────────────┐ │
-│  │ TRAINING SIGNAL                                               │ │
-│  │  • Image ID: img_1234567890_0                                │ │
-│  │  • Fused Label: Stable Diffusion XL (95%)                    │ │
-│  │  • Detector Weight: 74.5%                                     │ │
-│  │  • User Weight: 25.5%                                         │ │
-│  │  • Embedding: [512-dim vector]                                │ │
-│  │  • Status: labeled                                            │ │
-│  └───────────────────────────────────────────────────────────────┘ │
-└────────────────────────────┬────────────────────────────────────────┘
-                             │
-                             ▼
-                    [Embedding Store]
+┌────────────────────────────────────────────────────────────────────┐
+│  INGESTION LAYER (React 18 + TS + Vite)                            │
+│  Single upload · Batch/folder · Format validation                  │
+└──────────────────────────────┬─────────────────────────────────────┘
+                               │ REST /fetch, async job polling
+┌──────────────────────────────▼─────────────────────────────────────┐
+│  API LAYER — FastAPI (CPU-only)                                    │
+│  /api/v1/analyze · /batch · /jobs/{id} · /jobs/{id}/csv           │
+│  /metrics · /model · /model/performance · /history · /health      │
+│  In-process ThreadPoolExecutor job queue · LRU feature cache      │
+├────────────────────────────────────────────────────────────────────┤
+│  PREPROCESSING ── cv2 decode, EXIF-safe, letterbox resize 256      │
+├────────────────────────────────────────────────────────────────────┤
+│  FEATURE EXTRACTION (numpy · scipy · pywavelets · scikit-image)    │
+│  · FFT: log-spaced radial + azimuthal energy profiles,             │
+│    spectral slope/flatness, phase entropy, peak prominence         │
+│  · DCT 8×8: coefficient stats, high-freq anomaly, upsampling peaks │
+│  · Wavelet db4/sym8: sub-band energy/entropy/ratios                │
+│  · SRM noise residual: kurtosis, std, block consistency            │
+│  · GLCM texture + box-counting fractal dimension                   │
+│  → 89-dim feature vector (~<150ms warm)                            │
+├────────────────────────────────────────────────────────────────────┤
+│  FUSION & CLASSIFICATION (scikit-learn)                            │
+│  RF + SVM-RBF + LR + GradientBoosting → probability average        │
+│  → isotonic calibration → FPR-tuned threshold gate                 │
+│  → generator-family attribution (softmax over real/diffusion/gan/other) │
+├────────────────────────────────────────────────────────────────────┤
+│  EXPLAINABILITY ── windowed spectral-saliency + patch-inconsistency│
+│  → base64 PNG overlay (no gradients, CPU-cheap)                    │
+├────────────────────────────────────────────────────────────────────┤
+│  LOGGING · CACHE · HISTORY                                         │
+│  Structured JSON logs · LRU feature cache · SQLite audit history   │
+└────────────────────────────────────────────────────────────────────┘
 ```
 
-## Embedding-Based Clustering
+## Data flow (single image)
 
 ```
-┌─────────────────────────────────────────────────────────────────────┐
-│                     512-DIMENSIONAL EMBEDDING SPACE                  │
-├─────────────────────────────────────────────────────────────────────┤
-│                                                                       │
-│    Stable Diffusion XL        DALL-E 3           Midjourney v6      │
-│    ╔════════════════╗      ╔═══════════════╗   ╔══════════════╗    │
-│    ║   ●  ● ● ●     ║      ║   ●  ●  ●     ║   ║  ●  ●  ●    ║    │
-│    ║  ●  ⊕   ●  ●   ║      ║  ●  ⊕  ●  ●   ║   ║ ●  ⊕   ●    ║    │
-│    ║   ● ●  ●       ║      ║    ●  ●       ║   ║  ●   ●  ●   ║    │
-│    ║  ●   ●  ●  ●   ║      ║  ●   ●  ●     ║   ║ ●  ●    ●   ║    │
-│    ╚════════════════╝      ╚═══════════════╝   ╚══════════════╝    │
-│    342 samples              218 samples          187 samples        │
-│    Cohesion: 0.87           Cohesion: 0.82       Cohesion: 0.84    │
-│    Separation: 2.34         Separation: 2.89     Separation: 2.56  │
-│                                                                       │
-│    StyleGAN3                Unknown Cluster #1   Unknown Cluster #2 │
-│    ╔═══════════════╗        ┌─────────────┐     ┌──────────────┐   │
-│    ║  ●  ●  ●      ║        │  ●  ●  ●    │     │  ●  ●       │   │
-│    ║ ●  ⊕   ●  ●   ║        │ ●  ?   ●    │     │ ●  ?   ●    │   │
-│    ║  ●   ●   ●    ║        │   ●  ●      │     │  ●  ●  ●    │   │
-│    ╚═══════════════╝        └─────────────┘     └──────────────┘   │
-│    156 samples              23 samples           17 samples         │
-│    Cohesion: 0.91           CDCS: 0.76           CDCS: 0.81         │
-│                             Status: Pending       Status: Pending   │
-│                                                                       │
-│    Legend:                                                            │
-│    ● = Training sample      ⊕ = Cluster centroid   ? = Unknown      │
-│    ╔═══╗ = Known model      ┌───┐ = Unknown cluster                 │
-│                                                                       │
-└─────────────────────────────────────────────────────────────────────┘
-
-Clustering Algorithm: DBSCAN
-Distance Metric: Cosine Similarity
-Minimum Samples: 5
-Epsilon (ε): 0.3
+image → decode/validate → preprocess → [FFT | DCT | wavelet | SRM | GLCM]
+      → FeatureBundle → ensemble predict → calibrate → threshold gate
+      → verdict + confidence + family attribution + saliency heatmap
+      → API response → dashboard render → SQLite audit row
 ```
 
-## Data Flow Architecture
+## Data flow (batch)
 
 ```
-┌─────────────────────────────────────────────────────────────────────┐
-│                         TRAINING DATA FLOW                           │
-└─────────────────────────────────────────────────────────────────────┘
-
-User Upload ──┐
-              │
-              ├──▶ Forensic Analysis ──┐
-              │                        │
-              │                        ├──▶ Training Signal ──┐
-              │                        │                       │
-              └──▶ User Labeling  ─────┘                       │
-                                                               │
-                                                               ▼
-                                            ┌─────────────────────────┐
-                                            │   Embedding Store       │
-                                            ├─────────────────────────┤
-                                            │ • Vector: [512-dim]     │
-                                            │ • Metadata: forensics   │
-                                            │ • Cluster ID            │
-                                            └──────────┬──────────────┘
-                                                       │
-                         ┌─────────────────────────────┼─────────────────┐
-                         │                             │                 │
-                         ▼                             ▼                 ▼
-              ┌──────────────────┐        ┌──────────────────┐  ┌─────────────┐
-              │ Cluster Update   │        │ Metadata Update  │  │ Unknown     │
-              ├──────────────────┤        ├──────────────────┤  │ Detection   │
-              │ • Centroid       │        │ • Fingerprints   │  │ DBSCAN      │
-              │ • Variance       │        │ • Artifacts      │  └─────────────┘
-              │ • Cohesion       │        │ • Provenance     │
-              └──────────────────┘        └──────────────────┘
-                         │                             │
-                         └─────────────┬───────────────┘
-                                       │
-                                       ▼
-                         ┌─────────────────────────┐
-                         │  Training Metrics       │
-                         ├─────────────────────────┤
-                         │ • Accuracy              │
-                         │ • AUROC                 │
-                         │ • Calibration Error     │
-                         │ • Per-Model Stats       │
-                         └─────────────────────────┘
-                                       │
-                                       ▼
-                         ┌─────────────────────────┐
-                         │  Dashboard Display      │
-                         └─────────────────────────┘
+files → jobs/{batch_id} → ThreadPoolExecutor workers → per-image pipeline
+      → results table → CSV/PDF report → history rows
 ```
 
-## Service Integration
+## Backend modules (`python_services/frequency_guard/`)
+
+| Module | Responsibility |
+|---|---|
+| `config.py` | environment-driven `Settings` (dataclass), `FG_*` env overrides; zero hardcoded paths. `ensure_dirs()` creates model/report/data dirs idempotently. |
+| `logging.py` | JSON-lines structured logging; `get_logger`, `with_fields`; no `print()` in library code. |
+| `io/loader.py` | cv2 lazy decode, format whitelist, EXIF orientation (tag 0x0112) applied via numpy/opencv, corrupted/oversize guards raise typed `LoadError`. |
+| `preprocess.py` | vectorized gray/RGB/YCrCb conversion + aspect-preserving letterbox resize. |
+| `features/fft_features.py` | `scipy.fft.rfft2`, log-spaced radial bins, azimuthal averaging, least-squares spectral slope, flatness, phase entropy, high-freq ratio, peak prominence. |
+| `features/dct_features.py` | 8×8 block DCT statistics: kurtosis, high-freq/mid-band ratios, boundary energy, low/high ratio. |
+| `features/wavelet_features.py` | `pywt.wavedec2` db4/sym8: sub-band energy/entropy, detail ratio, cross-scale ratio, LL ratio. Rejects non-orthogonal wavelets. |
+| `features/noise_features.py` | SRM convolution kernels, residual kurtosis/std/mean-abs, block-consistency, flatness. |
+| `features/texture_features.py` | skimage GLCM (contrast/correlation/energy/homogeneity/dissimilarity) + box-counting fractal dimension. |
+| `features/extractor.py` | one-pass orchestrator producing a frozen `FeatureBundle`; bounded thread-safe `FeatureCache` keyed by (source, size, settings signature). |
+| `models/classifier.py` | `EnsembleConfig` + `EnsembleClassifier` blending RF/SVM-RBF/LR/GB by probability average; joblib save/load. |
+| `models/calibration.py` | isotonic (default) or Platt/sigmoid calibration, ECE + Brier computation, joblib persistence. |
+| `models/attribution.py` | softmax over `real/diffusion/gan/other`; supervised per-family logistic heads trained on OOF probs, heuristic fallback when no family labels exist. |
+| `explainability/heatmap.py` | tiled FFT spectral saliency + patch-inconsistency map, viridis colormap → base64 RGBA PNG overlay. |
+| `api/schemas.py` | Pydantic v2 request/response models (the wire contract the dashboard consumes). |
+| `api/inference.py` | bytes→load→preprocess→features(cached)→predict→calibrate→attribute→explain; model lifecycle (`ensure_model`, `reload`, metadata). |
+| `api/server.py` | FastAPI app factory; single-image + batch endpoints, CSV export, metrics/model/history; batch jobs on `ThreadPoolExecutor`. |
+| `api/history.py` | SQLite audit store (one row per analysis), thread-safe, `recent`/`stats`/`clear`. |
+| `training/train_pipeline.py` | manifest→cache features→stratified k-fold CV (by label/generator)→ensemble→isotonic calibrator→persist artifacts + report. |
+| `evaluation/evaluate.py` | accuracy/precision/recall/F1, ROC+PR, confusion matrix, ECE, per-generator slices, latency p50/p95/p99, peak RSS; writes `reports/benchmark_<ts>.json` + `metrics_history.json`. |
+
+## Frontend modules (`src/`)
+
+| Module | Responsibility |
+|---|---|
+| `lib/api/client.ts` | typed REST client mirroring backend schemas (`analyzeImage`, `submitBatch`, `pollJob`, `getMetrics`, `getModelInfo`, `getPerformance`, `getHistory`). |
+| `lib/services/adaptiveInference.ts` | maps a real `AnalyzeResponse` → `AdaptiveAnalysisResult` (verdict card + forensic parameter grid). No randomness. |
+| `lib/services/analysisPresentation.ts` | maps real payloads → Recharts-ready spectra/wavelets/azimuthal series + sorted family attribution. |
+| `lib/services/pdfReport.ts` | dependency-free PDF 1.4 generator for batch results (Helvetica/Courier Type1, paginated table). |
+| `components/dashboard/*` | `LiveMetrics`, `BatchAnalysis` (CSV+PDF+JSON export), `ModelPerformance`, `HistoryPanel`. |
+| `pages/Index.tsx` | upload → real backend analysis → render result (no artificial delay). |
+| `pages/Dashboard.tsx` | composes live metrics/batch/performance/history panels. |
+| `pages/Training.tsx` | two-stage intake (forensic analysis + weak labeling), embedding visualizer, model management. |
+
+## Testing strategy
 
 ```
-┌─────────────────────────────────────────────────────────────────────┐
-│                      SERVICE CALL HIERARCHY                          │
-└─────────────────────────────────────────────────────────────────────┘
-
-TrainingIntake Component
-    │
-    ├─▶ forensicAnalysisService.analyzeImage()
-    │       │
-    │       ├─▶ computeContourletTransform()
-    │       ├─▶ computeMultiResolutionFFT()
-    │       ├─▶ computePhaseRandomness()
-    │       ├─▶ computeFractalDimension()
-    │       ├─▶ computeGLCMFeatures()
-    │       ├─▶ detectCheckerboardPattern()
-    │       └─▶ computeCDCS()
-    │
-    ├─▶ weakSignalService.fuseSignals()
-    │       │
-    │       ├─▶ calculateDetectorWeight()
-    │       ├─▶ calculateUserWeight()
-    │       ├─▶ getUserAccuracy()
-    │       └─▶ calculateLabelQuality()
-    │
-    └─▶ embeddingStoreService.addEmbedding()
-            │
-            ├─▶ assignToCluster()
-            │       │
-            │       ├─▶ findSimilar() [k-NN search]
-            │       └─▶ updateCluster()
-            │               │
-            │               ├─▶ computeClusterVariance()
-            │               ├─▶ updateForensicFingerprint()
-            │               ├─▶ computeCohesion()
-            │               └─▶ computeSeparation()
-            │
-            └─▶ detectUnknownClusters() [DBSCAN]
-                    │
-                    └─▶ modelMetadataStore.updateMetadata()
-                            │
-                            ├─▶ computeStatisticalFingerprint()
-                            ├─▶ computeArtifactSignature()
-                            └─▶ computeProvenanceProfile()
+tests/python/
+├── unit/             every extractor, classifier, calibrator, attributor, harness, history, server, inference
+├── integration/      image-in → verdict-out with real model artifacts (demo)
+├── regression/       golden-dataset feature-vector + verdict locks (drift < 2%)
+├── robustness/       JPEG/resize/crop/noise stability — verdict direction must not flip
+└── performance/      latency <150ms/img + peak RSS <2GB gates (perf-marked, run separately)
 ```
 
-## Key Algorithms
+Frontend: `src/**/*.test.{ts,tsx}` via vitest (node env + minimal DOM). CI runs
+ruff/black/mypy/pytest(+coverage ≥90%)/vitest/tsc/build/pip-audit/npm-audit.
 
-### CDCS Calculation
-```
-CDCS = 1 - σ / μ
+## Signal-processing theory notes
 
-Where:
-σ = std([spatialConf, frequencyConf, waveletConf, statisticalConf])
-μ = mean([spatialConf, frequencyConf, waveletConf, statisticalConf])
+- **Spectral slope (α)** — fitting `log P ~ -α log f` on the radial power spectrum.
+  Natural photography follows ≈1.9–2.2; generators that flatten or boost
+  mid/high bands deviate measurably. Extracted by least squares over log-spaced bins.
+- **Azimuthal anisotropy** — averaging power by angle exposes directional
+  upsampling artifacts invisible in a purely radial profile.
+- **Checkerboard/upsampling periodicity** — conv-transpose upsampling leaves peaks
+  at ω≈π/2 harmonics; captured by the FFT peak-prominence feature.
+- **DCT high-frequency anomaly** — 8×8 block-DCT tail statistics expose diffusion
+  spectral flattening and double-JPEG fingerprints.
+- **Wavelet cross-scale regularity** — sub-band energy/entropy ratios differ between
+  smooth camera structure and generator artifacts.
+- **SRM noise-print consistency** — real sensor noise is spatially consistent;
+  synthetic noise is not. Quantified via residual kurtosis + per-block variance.
+- **Patch-level inconsistency** — dividing into tiles and measuring inter-tile
+  variance of local spectral slope flags regionally inconsistent synthesis
+  (used for both the heatmap and an explainability score).
 
-High CDCS (>0.7) → All branches agree → Likely AI
-Low CDCS (<0.3) → Branches disagree → Likely Real
-```
+## Configuration
 
-### Weak Signal Fusion
-```
-W_detector = calibrationAccuracy × 0.7
-W_user = (confidence / 100) × userAccuracy × 0.3
-
-Score_detector = detectorConfidence × W_detector
-Score_user = userConfidence × W_user
-
-If Score_detector > Score_user:
-    FinalLabel = DetectorLabel
-    FinalConfidence = Score_detector + Score_user
-Else:
-    FinalLabel = UserLabel
-    FinalConfidence = Score_detector + Score_user
-
-If DetectorLabel == UserLabel:
-    FinalConfidence *= 1.1  // Agreement bonus
-```
-
-### Cluster Assignment
-```
-For new embedding E:
-1. Find k=5 nearest neighbors in embedding space
-2. If nearest_distance < threshold:
-       Assign to existing cluster
-       Update centroid: C_new = (C_old × n + E) / (n + 1)
-   Else:
-       Create new cluster with C = E
-3. Compute cohesion = 1 / (1 + avg_distance_to_centroid)
-4. Compute separation = min(distance_to_other_centroids)
-```
-
-## Technology Stack
-
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│                         TECHNOLOGY STACK                             │
-├─────────────────────────────────────────────────────────────────────┤
-│                                                                       │
-│  Frontend Framework:     React 18 + TypeScript                       │
-│  UI Components:          shadcn/ui + Radix UI                        │
-│  Styling:                Tailwind CSS                                │
-│  Routing:                React Router v6                             │
-│  File Upload:            react-dropzone                              │
-│  Charts:                 Recharts                                    │
-│  Icons:                  lucide-react                                │
-│                                                                       │
-│  Build Tool:             Vite                                        │
-│  Package Manager:        npm/bun                                     │
-│  Type Checking:          TypeScript 5.8                              │
-│  Linting:                ESLint                                      │
-│                                                                       │
-│  Services (Client-Side):                                             │
-│    • Forensic Analysis Service                                       │
-│    • Embedding Store Service                                         │
-│    • Weak Signal Service                                             │
-│    • Model Metadata Store                                            │
-│    • Training Integration Service                                    │
-│                                                                       │
-│  Future Backend (Production):                                        │
-│    • API: FastAPI/Express                                            │
-│    • Vector DB: FAISS/Pinecone/Weaviate                             │
-│    • Database: PostgreSQL + S3                                       │
-│    • ML Framework: PyTorch/TensorFlow                                │
-│    • Deployment: Docker + Kubernetes                                 │
-│                                                                       │
-└─────────────────────────────────────────────────────────────────────┘
-```
-
----
-
-**This architecture enables:**
-- ✅ Dynamic model addition without retraining
-- ✅ Weak signal learning with calibration
-- ✅ Open-world AI detection
-- ✅ Scalable embedding-based clustering
-- ✅ Research-grade forensic analysis
+All runtime settings come from `config.Settings`, overridable via environment
+variables prefixed `FG_` (e.g. `FG_IMAGE_SIZE=256`, `FG_LOG_LEVEL=DEBUG`,
+`FG_THRESHOLD_FPR_TARGET=0.02`, `FG_BATCH_WORKERS=2`, `FG_CACHE_SIZE=256`).
+No module hardcodes a path or parameter.

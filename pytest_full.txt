@@ -1,0 +1,20 @@
+...................................................                      [100%]
+=============================== tests coverage ================================
+______________ coverage: platform win32, python 3.10.11-final-0 _______________
+
+Name                                                           Stmts   Miss Branch BrPart  Cover   Missing
+----------------------------------------------------------------------------------------------------------
+python_services\frequency_guard\config.py                         59      3     16      3    92%   84, 88, 90
+python_services\frequency_guard\features\dct_features.py          59      0      2      0   100%
+python_services\frequency_guard\features\extractor.py             62      1      6      1    97%   103
+python_services\frequency_guard\features\fft_features.py         102      7      8      4    90%   113, 177-179, 192, 213-214
+python_services\frequency_guard\features\noise_features.py        59      3     10      4    90%   88, 100, 125->133, 145
+python_services\frequency_guard\features\texture_features.py      54      1     10      1    97%   89
+python_services\frequency_guard\features\wavelet_features.py      49      3     10      3    90%   52, 57, 73
+python_services\frequency_guard\io\loader.py                      81      6     30      6    89%   57, 61, 63, 67, 71, 85
+python_services\frequency_guard\logging.py                        34      4      8      2    86%   30, 56-58
+python_services\frequency_guard\preprocess.py                     33      0      2      0   100%
+----------------------------------------------------------------------------------------------------------
+TOTAL                                                            592     28    102     24    93%
+Required test coverage of 90.0% reached. Total coverage: 92.51%
+51 passed in 7.50s

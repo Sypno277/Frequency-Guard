@@ -1,13 +1,14 @@
 import { useState, useCallback } from "react";
-import { Upload, Image as ImageIcon, X, Loader2 } from "lucide-react";
+import { Upload, Image as ImageIcon, X, Loader2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface ImageUploaderProps {
   onImageUpload: (file: File, preview: string) => void;
   isAnalyzing: boolean;
+  error?: string | null;
 }
 
-const ImageUploader = ({ onImageUpload, isAnalyzing }: ImageUploaderProps) => {
+const ImageUploader = ({ onImageUpload, isAnalyzing, error }: ImageUploaderProps) => {
   const [isDragging, setIsDragging] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
 
@@ -66,9 +67,16 @@ const ImageUploader = ({ onImageUpload, isAnalyzing }: ImageUploaderProps) => {
               Upload Your Image
             </h2>
             <p className="text-muted-foreground">
-              Drag and drop an image or click to browse. Supports JPG, PNG, and WebP.
+              Drag and drop an image or click to browse. Supports JPG, PNG, WebP, BMP.
             </p>
           </div>
+
+          {error && (
+            <div className="mb-6 flex items-start gap-3 rounded-lg border border-destructive/40 bg-destructive/10 p-4 text-sm text-destructive">
+              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+              <span>{error}</span>
+            </div>
+          )}
 
           <div
             className={`
@@ -150,6 +158,7 @@ const ImageUploader = ({ onImageUpload, isAnalyzing }: ImageUploaderProps) => {
                     <span className="px-2 py-1 rounded bg-muted">JPG</span>
                     <span className="px-2 py-1 rounded bg-muted">PNG</span>
                     <span className="px-2 py-1 rounded bg-muted">WebP</span>
+                    <span className="px-2 py-1 rounded bg-muted">BMP</span>
                   </div>
                 </div>
               </label>

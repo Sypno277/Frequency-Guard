@@ -12,6 +12,24 @@ dist
 dist-ssr
 *.local
 
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+venv/
+.venv/
+
+# Generated artifacts
+checkpoints/
+reports/
+data/*.sqlite3
+*.joblib
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

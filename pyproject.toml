@@ -1,0 +1,93 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "frequency-guard"
+version = "2.0.0"
+description = "CPU-only frequency-domain AI-image detection system"
+requires-python = ">=3.10"
+
+[tool.setuptools]
+packages = ["python_services"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests/python"]
+addopts = "--strict-markers -ra"
+pythonpath = ["."]
+markers = [
+  "unit: isolated module-level unit tests",
+  "integration: end-to-end pipeline tests through the FastAPI app",
+  "regression: golden-dataset locked-expectation tests",
+  "robustness: JPEG/resize/noise perturbation stability tests",
+  "perf: latency/memory benchmark gates (excluded from default run)",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["python_services/frequency_guard"]
+omit = ["*/__init__.py"]
+
+[tool.coverage.report]
+fail_under = 90
+show_missing = true
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM"]
+ignore = [
+  "E501",
+  # Relative imports within the package are the deliberate convention here;
+  # they keep the package importable under python_services.* without a
+  # src-layout install (see Masterplan §3.1).
+  "TID252",
+]
+
+[tool.ruff.lint.per-file-ignores]
+# FastAPI dependency injection requires call-in-default (File(...), Query(...)).
+"python_services/frequency_guard/api/server.py" = ["B008"]
+
+[tool.black]
+line-length = 110
+target-version = ["py310"]
+
+[tool.mypy]
+python_version = "3.10"
+exclude = ["tests/"]
+warn_unused_configs = true
+# Practical strictness: enable core strict checks but tolerate the untyped
+# scientific stack (numpy ndarray generics, skimage/scipy/sklearn stubs).
+check_untyped_defs = true
+disallow_untyped_defs = false
+disallow_any_generics = false
+disallow_incomplete_defs = false
+warn_return_any = false
+warn_unused_ignores = true
+no_implicit_optional = true
+
+[[tool.mypy.overrides]]
+module = ["pywt", "cv2", "skimage.*", "scipy.*", "sklearn.*", "pandas", "joblib", "fastapi.*", "uvicorn", "matplotlib.*"]
+ignore_missing_imports = true
+
+# Numpy's shape-level generics are imprecise across reshape/transpose paths;
+# these modules use them heavily. Relax the shape-inference rules there.
+[[tool.mypy.overrides]]
+module = [
+  "python_services.frequency_guard.features.fft_features",
+  "python_services.frequency_guard.features.dct_features",
+  "python_services.frequency_guard.features.noise_features",
+  "python_services.frequency_guard.features.texture_features",
+  "python_services.frequency_guard.features.chroma_features",
+  "python_services.frequency_guard.features.hos_features",
+  "python_services.frequency_guard.features.jpeg_features",
+  "python_services.frequency_guard.features.prnu_features",
+  "python_services.frequency_guard.features.freq_texture_features",
+  "python_services.frequency_guard.features.extractor",
+  "python_services.frequency_guard.explainability.heatmap",
+  "python_services.frequency_guard.training.train_pipeline",
+]
+disallow_any_generics = false
+disable_error_code = ["assignment", "arg-type", "type-arg", "no-untyped-call"]

@@ -1,0 +1,37 @@
+{"ts": "2026-08-29T15:06:28.352+00:00", "level": "INFO", "logger": "__main__", "message": "merged benchmark manifest rows", "n": 36}
+{"ts": "2026-08-29T15:06:28.356+00:00", "level": "INFO", "logger": "__main__", "message": "merged demo manifest rows", "n": 516}
+{"ts": "2026-08-29T15:06:28.370+00:00", "level": "INFO", "logger": "__main__", "message": "combined training manifest written", "path": "D:\\My Projects\\frequency-guard\\data\\benchmark\\train_manifest.csv", "rows": 516}
+{"ts": "2026-08-29T15:06:28.405+00:00", "level": "INFO", "logger": "python_services.frequency_guard.training.train_pipeline", "message": "manifest loaded", "rows": 516, "path": "D:\\My Projects\\frequency-guard\\data\\benchmark\\train_manifest.csv"}
+{"ts": "2026-08-29T15:12:23.078+00:00", "level": "INFO", "logger": "python_services.frequency_guard.training.train_pipeline", "message": "features extracted", "shape": [1032, 120]}
+D:\My Projects\frequency-guard\.venv\lib\site-packages\sklearn\linear_model\_logistic.py:473: ConvergenceWarning: lbfgs failed to converge after 2000 iteration(s) (status=1):
+STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT
+
+Increase the number of iterations to improve the convergence (max_iter=2000).
+You might also want to scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  n_iter_i = _check_optimize_result(
+{"ts": "2026-08-29T15:13:00.457+00:00", "level": "INFO", "logger": "python_services.frequency_guard.models.classifier", "message": "ensemble trained", "n_samples": 825, "n_features": 120}
+{"ts": "2026-08-29T15:13:25.629+00:00", "level": "INFO", "logger": "python_services.frequency_guard.models.classifier", "message": "ensemble trained", "n_samples": 825, "n_features": 120}
+{"ts": "2026-08-29T15:13:48.627+00:00", "level": "INFO", "logger": "python_services.frequency_guard.models.classifier", "message": "ensemble trained", "n_samples": 826, "n_features": 120}
+{"ts": "2026-08-29T15:14:12.241+00:00", "level": "INFO", "logger": "python_services.frequency_guard.models.classifier", "message": "ensemble trained", "n_samples": 826, "n_features": 120}
+{"ts": "2026-08-29T15:14:25.310+00:00", "level": "INFO", "logger": "python_services.frequency_guard.models.classifier", "message": "ensemble trained", "n_samples": 826, "n_features": 120}
+{"ts": "2026-08-29T15:14:46.304+00:00", "level": "INFO", "logger": "python_services.frequency_guard.models.classifier", "message": "ensemble trained", "n_samples": 1032, "n_features": 120}
+{"ts": "2026-08-29T15:14:46.312+00:00", "level": "INFO", "logger": "python_services.frequency_guard.models.classifier", "message": "stacked meta-learner trained", "coef_rf_svm_lr_gb": [4.4154, 0.7178, 1.4954, 4.2077]}
+{"ts": "2026-08-29T15:14:46.317+00:00", "level": "WARNING", "logger": "python_services.frequency_guard.models.calibration", "message": "calibrator_overfit: isotonic mapped 99% of scores to {0,1}; falling back to sigmoid"}
+{"ts": "2026-08-29T15:14:46.364+00:00", "level": "INFO", "logger": "python_services.frequency_guard.training.train_pipeline", "message": "lomo skipped: manifest has no 'generator' column"}
+{"ts": "2026-08-29T15:14:46.814+00:00", "level": "INFO", "logger": "python_services.frequency_guard.models.classifier", "message": "ensemble saved", "path": "D:\\My Projects\\frequency-guard\\checkpoints\\ensemble.joblib"}
+{"ts": "2026-08-29T15:14:46.843+00:00", "level": "INFO", "logger": "python_services.frequency_guard.models.classifier", "message": "stacked meta-learner saved", "path": "D:\\My Projects\\frequency-guard\\checkpoints\\meta_learner.joblib"}
+{"ts": "2026-08-29T15:14:46.977+00:00", "level": "INFO", "logger": "python_services.frequency_guard.training.train_pipeline", "message": "training complete", "accuracy": 0.9980629426387131, "roc_auc": 0.9996417797888386, "ece": 0.14060467113985417}
+{"ts": "2026-08-29T15:14:46.977+00:00", "level": "INFO", "logger": "__main__", "message": "trained on real generator corpus with degradation augmentation", "manifest": "D:\\My Projects\\frequency-guard\\data\\benchmark\\train_manifest.csv"}
+{"ts": "2026-08-29T15:17:05.962+00:00", "level": "INFO", "logger": "__main__", "message": "threshold re-tuned", "threshold": 0.9999943615351095, "fpr_target": 0.05}
+
+=== Frequency Guard real-generator training complete ===
+accuracy : 0.9981
+f1       : 0.9980
+roc_auc  : 0.9996
+threshold: 1.0000 (target FPR 0.05)
+samples  : 1032 (520 real / 512 fake)
+manifest : D:\My Projects\frequency-guard\data\benchmark\train_manifest.csv
+artifacts: D:\My Projects\frequency-guard\checkpoints

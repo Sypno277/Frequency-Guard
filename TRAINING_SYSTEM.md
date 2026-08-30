@@ -1,8 +1,29 @@
-# Training System Documentation
+# Training Section — UX Layer Documentation
+
+> **⚠️ Honesty notice:** this documents the **frontend training UI at `/training`**.
+> It is a **local, in-browser demonstration layer** for the weak-labeling,
+> embedding-visualization, and model-management workflows. **It does not train
+> the real backend classifier.**
+>
+> The **production training path** is the Python pipeline:
+> `python_services/frequency_guard/training/train_pipeline.py` — manifest →
+> stratified CV → sklearn ensemble → isotonic calibration → persisted artifacts in
+> `checkpoints/`. The `/training` page's Stage-1 forensic analysis **does** call the
+> real `POST /api/v1/analyze` (see `components/training/ForensicAnalysisStage.tsx`),
+> but the embedding store, cluster assignment, and "model addition" are client-side
+> UI simulations.
+>
+> Any numeric claim in the original version of this doc (e.g. "96.4% accuracy",
+> "82.7% AUROC") was **fabricated** and has been removed. Real metrics come from
+> `scripts/train_demo.py` / `evaluate.py` and are written to `reports/`.
 
 ## Overview
 
-The Expandable Model Training Section is a cutting-edge, research-grade training system for continuously improving AI image forensics model identification capabilities. It implements weak signal learning, embedding-based clustering, and dynamic model addition without retraining the entire system.
+The /training page provides a research-style interface for the **two-stage intake**
+workflow (automated forensic analysis + optional weak user labeling), plus
+embedding visualization and a model-management surface. It demonstrates how a
+forensic-first training loop *could* be wired; the actual detector model is trained
+server-side by `train_pipeline.py`.
 
 ## Architecture
 
@@ -127,18 +148,28 @@ The **Embedding Visualizer** shows:
 
 ### Performance Targets
 
-| Metric | Target | Current |
-|--------|--------|---------|
-| Overall Accuracy | ≥95% | 96.4% ✅ |
-| Unknown AI AUROC | ≥80% | 82.7% ✅ |
-| Inference Time | <2s | 1.8s ✅ |
-| False Attribution Rate | ≤10% | 7.2% ✅ |
+Real, measured metrics are produced by `scripts/train_demo.py` on a **synthetic
+demo dataset** and reported to `reports/benchmark_<ts>.json`. They are **not**
+claims about real generator detection (see README honesty note). Typical demo-run
+output on this repo's procedural dataset:
 
-### Calibration
+| Metric | Demo value (synthetic-only) |
+|--------|------------------------------|
+| Held-out accuracy | ≈1.0 (demo set is trivially separable) |
+| ROC-AUC | ≈1.0 |
+| ECE | <0.01 |
+| FPR @ tuned threshold | ≈0.0 |
+| Peak RSS | ≈150 MB |
 
-- **Expected Calibration Error (ECE)**: 3.2%
-- **Temperature Scaling**: Dynamic adjustment based on validation performance
-- **Confidence Intervals**: ±5% for 90% confidence predictions
+Train on a real labeled manifest to get production-grade numbers.
+
+### Calibration (real backend)
+
+- **Expected Calibration Error (ECE)**: computed by `evaluate.py` on every run
+  and written to `reports/`; the demo model measures ECE < 0.01.
+- **Isotonic regression** is the production calibrator (`models/calibration.py`);
+  Platt/sigmoid is available as a baseline. The UI's "temperature scaling" panel
+  is a visualization of the concept, not the backend mechanism.
 
 ### Clustering Quality
 

@@ -3,10 +3,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Upload, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
+import { Upload, CheckCircle } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
 import ForensicAnalysisStage from '@/components/training/ForensicAnalysisStage';
 import WeakLabelingStage from '@/components/training/WeakLabelingStage';
+import { weakSignalService } from '@/lib/services/weakSignal';
+import { trainingIntegrationService } from '@/lib/services/trainingIntegration';
 import type { DetectorPrediction, UserLabel, TrainingSignal } from '@/lib/types/training';
 
 type IntakeStage = 'upload' | 'analyzing' | 'labeling' | 'complete';
@@ -39,20 +41,21 @@ export default function TrainingIntake() {
     setStage('labeling');
   };
 
-  const handleLabelSubmit = (userLabel: UserLabel | null) => {
+  const handleLabelSubmit = async (userLabel: UserLabel | null) => {
     if (!detectorPrediction) return;
 
-    // Create training signal with weak signal fusion
-    const trainingSignal: TrainingSignal = {
-      imageId: `img_${Date.now()}_${currentFileIndex}`,
+    const imageId = `img_${Date.now()}_${currentFileIndex}`;
+    const embeddingVector = generateEmbedding(detectorPrediction);
+    const trainingSignal: TrainingSignal = weakSignalService.fuseSignals(
       detectorPrediction,
       userLabel,
-      fusedLabel: fuseSignals(detectorPrediction, userLabel),
-      embeddingVector: generateEmbedding(detectorPrediction),
-      status: userLabel ? 'labeled' : 'pending_label'
-    };
+      imageId,
+      embeddingVector
+    );
 
-    setTrainingSignals([...trainingSignals, trainingSignal]);
+    await trainingIntegrationService.submitTrainingSignal(trainingSignal);
+
+    setTrainingSignals((prev) => [...prev, trainingSignal]);
 
     // Move to next file or complete
     if (currentFileIndex < uploadedFiles.length - 1) {
@@ -77,55 +80,8 @@ export default function TrainingIntake() {
     setProgress(0);
   };
 
-  // Helper: Fuse detector and user signals
-  const fuseSignals = (
-    detector: DetectorPrediction,
-    user: UserLabel | null
-  ): TrainingSignal['fusedLabel'] => {
-    if (!user) {
-      return {
-        family: detector.family,
-        model: detector.model,
-        confidence: detector.confidence,
-        detectorWeight: 1.0,
-        userWeight: 0.0
-      };
-    }
-
-    // Weight by calibration accuracy and user confidence
-    const detectorWeight = detector.calibrationAccuracy * 0.7;
-    const userWeight = (user.confidence / 100) * (user.userAccuracy || 0.5) * 0.3;
-    const totalWeight = detectorWeight + userWeight;
-
-    // Normalize weights
-    const normDetectorWeight = detectorWeight / totalWeight;
-    const normUserWeight = userWeight / totalWeight;
-
-    // Choose model based on higher weighted confidence
-    const detectorScore = detector.confidence * normDetectorWeight;
-    const userScore = (user.confidence / 100) * normUserWeight;
-
-    if (detectorScore > userScore) {
-      return {
-        family: detector.family,
-        model: detector.model,
-        confidence: detectorScore + userScore,
-        detectorWeight: normDetectorWeight,
-        userWeight: normUserWeight
-      };
-    } else {
-      return {
-        family: user.family,
-        model: user.model,
-        confidence: detectorScore + userScore,
-        detectorWeight: normDetectorWeight,
-        userWeight: normUserWeight
-      };
-    }
-  };
-
   // Placeholder for embedding generation
-  const generateEmbedding = (prediction: DetectorPrediction): number[] => {
+  const generateEmbedding = (_prediction: DetectorPrediction): number[] => {
     // In production: Use ViT/ConvNeXt backbone to generate 512/1024-dim vector
     return new Array(512).fill(0).map(() => Math.random());
   };

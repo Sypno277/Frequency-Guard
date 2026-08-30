@@ -2,78 +2,78 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Frequency Guard - Modern SaaS Design System */
+/* Frequency Guard - Forensic Operations Terminal Design System */
 
 @layer base {
   :root {
-    /* Base colors - Deep navy professional palette */
-    --background: 222 47% 6%;
-    --foreground: 210 40% 98%;
+    /* Base colors - Carbon-black forensic base */
+    --background: 228 24% 4%;
+    --foreground: 200 40% 96%;
 
-    --card: 222 47% 8%;
-    --card-foreground: 210 40% 98%;
+    --card: 226 20% 7%;
+    --card-foreground: 200 40% 96%;
 
-    --popover: 222 47% 10%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 226 20% 8%;
+    --popover-foreground: 200 40% 96%;
 
-    /* Primary - Electric Blue */
-    --primary: 217 91% 60%;
-    --primary-foreground: 222 47% 6%;
+    /* Primary - Signal cyan (terminal accent) */
+    --primary: 189 94% 53%;
+    --primary-foreground: 228 24% 4%;
 
-    /* Secondary - Slate */
-    --secondary: 215 25% 15%;
-    --secondary-foreground: 210 40% 90%;
+    /* Secondary - Slate for muted surfaces */
+    --secondary: 216 16% 14%;
+    --secondary-foreground: 200 30% 88%;
 
-    /* Muted - Dark slate */
-    --muted: 215 25% 12%;
-    --muted-foreground: 215 20% 55%;
+    /* Muted - Deep slate */
+    --muted: 216 14% 11%;
+    --muted-foreground: 210 15% 62%;
 
-    /* Accent - Cyan glow */
-    --accent: 190 95% 50%;
-    --accent-foreground: 222 47% 6%;
+    /* Accent - Electric violet for model attribution */
+    --accent: 263 90% 62%;
+    --accent-foreground: 228 24% 4%;
 
     /* Status colors */
     --destructive: 0 72% 51%;
     --destructive-foreground: 210 40% 98%;
 
     --success: 142 76% 45%;
-    --success-foreground: 222 47% 6%;
+    --success-foreground: 228 24% 4%;
 
     --warning: 38 92% 50%;
-    --warning-foreground: 222 47% 6%;
+    --warning-foreground: 228 24% 4%;
 
     /* AI Detection specific */
     --real: 142 76% 45%;
     --ai-detected: 0 72% 51%;
     --uncertain: 38 92% 50%;
 
-    --border: 215 25% 18%;
-    --input: 215 25% 15%;
-    --ring: 217 91% 60%;
+    --border: 214 18% 16%;
+    --input: 214 18% 14%;
+    --ring: 189 94% 53%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
 
-    /* Custom gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(217 91% 60%), hsl(190 95% 50%));
-    --gradient-hero: linear-gradient(180deg, hsl(222 47% 6%) 0%, hsl(222 47% 10%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(222 47% 10%), hsl(222 47% 6%));
-    --gradient-glow: radial-gradient(ellipse at center, hsl(217 91% 60% / 0.15), transparent 70%);
-    --gradient-spectrum: linear-gradient(90deg, hsl(280 90% 50%), hsl(217 91% 60%), hsl(190 95% 50%), hsl(142 76% 45%));
+    /* Terminal gradients - cyan/violet, no purple-blue SaaS wash */
+    --gradient-primary: linear-gradient(135deg, hsl(189 94% 53%), hsl(263 90% 62%));
+    --gradient-hero: linear-gradient(180deg, hsl(228 24% 4%) 0%, hsl(226 20% 7%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(226 20% 9%), hsl(228 24% 5%));
+    --gradient-glow: radial-gradient(ellipse at center, hsl(189 94% 53% / 0.16), transparent 70%);
+    --gradient-spectrum: linear-gradient(90deg, hsl(263 90% 62%), hsl(189 94% 53%), hsl(142 76% 45%), hsl(38 92% 50%));
 
-    /* Shadows */
-    --shadow-glow: 0 0 30px hsl(217 91% 60% / 0.3);
-    --shadow-card: 0 4px 20px hsl(0 0% 0% / 0.3);
-    --shadow-elevated: 0 8px 40px hsl(0 0% 0% / 0.4);
+    /* Shadows - chunky terminal drop shadows */
+    --shadow-glow: 0 0 24px hsl(189 94% 53% / 0.25);
+    --shadow-card: 0 4px 18px hsl(0 0% 0% / 0.35);
+    --shadow-elevated: 0 8px 36px hsl(0 0% 0% / 0.45);
 
     /* Sidebar */
-    --sidebar-background: 222 47% 5%;
-    --sidebar-foreground: 210 40% 90%;
-    --sidebar-primary: 217 91% 60%;
-    --sidebar-primary-foreground: 222 47% 6%;
-    --sidebar-accent: 215 25% 12%;
-    --sidebar-accent-foreground: 210 40% 90%;
-    --sidebar-border: 215 25% 15%;
-    --sidebar-ring: 217 91% 60%;
+    --sidebar-background: 228 24% 3%;
+    --sidebar-foreground: 200 40% 92%;
+    --sidebar-primary: 189 94% 53%;
+    --sidebar-primary-foreground: 228 24% 4%;
+    --sidebar-accent: 216 14% 11%;
+    --sidebar-accent-foreground: 200 40% 92%;
+    --sidebar-border: 214 18% 14%;
+    --sidebar-ring: 189 94% 53%;
   }
 
   .dark {
@@ -113,6 +113,14 @@
 }
 
 @layer utilities {
+  /* Data-viz chart palette tokens */
+  .chart-sky { color: hsl(217 91% 60%); }
+  .chart-cyan { color: hsl(190 95% 50%); }
+  .chart-violet { color: hsl(280 90% 60%); }
+  .chart-emerald { color: hsl(142 76% 45%); }
+  .chart-amber { color: hsl(38 92% 50%); }
+  .chart-rose { color: hsl(0 72% 60%); }
+
   /* Glow effects */
   .glow-primary {
     box-shadow: var(--shadow-glow);
